@@ -13,12 +13,6 @@ import (
 	"gonum.org/v1/gonum/graph/simple"
 )
 
-type bag struct {
-	childs  []string
-	parents []string
-}
-type bags map[string]*bag
-
 func createBagGraph(path string) (*simple.WeightedDirectedGraph, map[string]graph.Node) {
 	file, err := os.Open(path)
 	if err != nil {
