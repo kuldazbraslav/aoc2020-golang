@@ -53,16 +53,32 @@ func (cipher *xmas) findInvalid() int {
 	return -1
 }
 
+func (cipher *xmas) findIntervalThatSumTo(sum int) []int {
+	for i, x := range cipher.data {
+		acc := x
+		for j, y := range cipher.data[i+1:] {
+			acc += y
+			if acc > sum {
+				break
+			}
+			if acc == sum {
+				return cipher.data[i : i+j+2]
+			}
+		}
+	}
+	return nil
+}
+
 func minMax(array []int) (int, int) {
 	max := array[0]
 	min := array[0]
 	for _, value := range array {
-			if max < value {
-					max = value
-			}
-			if min > value {
-					min = value
-			}
+		if max < value {
+			max = value
+		}
+		if min > value {
+			min = value
+		}
 	}
 	return min, max
 }
@@ -78,4 +94,8 @@ func main() {
 	}
 	invalid := cipher.findInvalid()
 	fmt.Println("Part 1:", invalid)
+
+	breachInterval := cipher.findIntervalThatSumTo(invalid)
+	min, max := minMax(breachInterval)
+	fmt.Println("Part 2:", min+max)
 }
